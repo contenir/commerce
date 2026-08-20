@@ -6,11 +6,11 @@ namespace Contenir\Commerce\Tests\Unit\Payment;
 
 use Contenir\Commerce\Payment\Factory\StripeGatewayFactory;
 use Contenir\Commerce\Payment\StripeGateway;
+use Contenir\Commerce\Payment\UnconfiguredGateway;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use RuntimeException;
 
 #[Group('unit')]
 final class StripeGatewayFactoryTest extends TestCase
@@ -29,15 +29,12 @@ final class StripeGatewayFactoryTest extends TestCase
      * @param array<string, mixed> $config
      */
     #[DataProvider('missingConfigProvider')]
-    public function testRefusesToBuildWithoutSecretKey(array $config): void
+    public function testFallsBackToTheUnconfiguredGatewayWithoutSecretKey(array $config): void
     {
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')->willReturn($config);
 
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Stripe is not configured');
-
-        (new StripeGatewayFactory())($container);
+        $this->assertInstanceOf(UnconfiguredGateway::class, (new StripeGatewayFactory())($container));
     }
 
     /**
