@@ -1,0 +1,42 @@
+{
+    "name": "contenir/commerce",
+    "description": "Commerce domain for Contenir CMS — orders, artworks, GST-inclusive money and Stripe checkout for small-volume gallery sales.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1 || ^8.2 || ^8.3",
+        "contenir/contenir-db-model": "^1.0",
+        "psr/clock": "^1.0",
+        "psr/container": "^1.1 || ^2.0",
+        "stripe/stripe-php": "^17.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.0",
+        "squizlabs/php_codesniffer": "^3.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Contenir\\Commerce\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Contenir\\Commerce\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "cs": "phpcs",
+        "cs-fix": "phpcbf",
+        "stan": "phpstan analyse"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laminas": {
+            "config-provider": "Contenir\\Commerce\\ConfigProvider"
+        }
+    }
+}
