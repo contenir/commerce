@@ -36,6 +36,7 @@
     },
     "extra": {
         "laminas": {
+            "component": "Contenir\\Commerce",
             "config-provider": "Contenir\\Commerce\\ConfigProvider"
         }
     }
