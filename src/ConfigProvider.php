@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Contenir\Commerce;
 
+use Contenir\Commerce\Clock\SystemClock;
+use Contenir\Commerce\Order\Factory\OrderManagerFactory;
+use Contenir\Commerce\Order\OrderManager;
 use Contenir\Commerce\Payment\Factory\StripeGatewayFactory;
 use Contenir\Commerce\Payment\PaymentGatewayInterface;
 use Contenir\Db\Model\Repository\Factory\RepositoryFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Psr\Clock\ClockInterface;
 
 final class ConfigProvider
 {
@@ -27,7 +31,12 @@ final class ConfigProvider
     public function getDependencyConfig(): array
     {
         return [
+            'aliases'   => [
+                ClockInterface::class => SystemClock::class,
+            ],
             'factories' => [
+                SystemClock::class  => InvokableFactory::class,
+                OrderManager::class => OrderManagerFactory::class,
                 Model\Entity\ArtworkEntity::class           => InvokableFactory::class,
                 Model\Entity\OrderEntity::class             => InvokableFactory::class,
                 Model\Entity\OrderItemEntity::class         => InvokableFactory::class,
